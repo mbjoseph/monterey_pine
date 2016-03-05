@@ -1,6 +1,6 @@
 library(dplyr)
 library(rstan)
-load("fatedata.rdata")
+load("fatedata_OP.rdata")
 
 
 # allow Stan to execute multiple Markov chains in parallel
@@ -25,18 +25,19 @@ for(i in 1:nrow(fatemx)){
 
 w <- c(201.422,	242.57,	314.706,	436.626,	427.99,	140.208,	288.544,	
            305.562,	458.978,	586.232,	279.146,	74.168,	207.01) %>%
-  scale()
-
-f <- read.csv("fog_030416.csv") %>%
-  filter(metric == 5, yr < 2015) %>%
-  select(mean) %>%
   scale() %>%
-  as.matrix()
+  as.vector()
+
+cloud <- read.csv("cloud_160305.csv") %>%
+  filter(Metric == 5, Year < 2015) %>%
+  select(Mean) %>%
+  scale() %>% 
+  as.vector
 
 #subset of data to test
-fmx <- fatemx[1:200,]
-sinit <- init_sz[1:200]
-yinit <- init_yr[1:200]
+fmx <- fatemx[1:150,]
+sinit <- init_sz[1:150]
+yinit <- init_yr[1:150]
 
 # Stan call
 stan_d <- list(ntree = nrow(fmx),
@@ -49,7 +50,7 @@ stan_d <- list(ntree = nrow(fmx),
 out <- stan('g.stan', data = stan_d)
 #print(out, digits = 1)
 traceplot(out)
-pairs(out, pars = c('a', 'b', 'c', 'sigma_proc', 'sigma_obs'))
+pairs(out, pars = c('a', 'b', 'c', 'sigma_ind', 'sigma_t', 'sigma_obs'))
 
 # extract posteriors from model obj
 post <- rstan::extract(out)

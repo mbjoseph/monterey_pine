@@ -28,7 +28,8 @@ transformed parameters {
     // add one to init_yr to allow time loop index
     for (t in (init_yr[n]+1):time){
       sz[n,t] <- a + b*sz[n,t-1] + c*precip[t] + d*sz[n,t-1]*precip[t] + growvar[n,t-1];
-      survprob[n,t] <- survprob[n,t-1]*logit(Sa + Sb*sz[n,t-1] + Sc*precip[t] + Sd*sz[n,t-1]*precip[t] + growvar[n,t-1];
+      survprob[n,t] <- survprob[n,t-1] * logit(Sa + Sb*sz[n,t-1] + Sc*precip[t] + 
+      Sd*sz[n,t-1]*precip[t] + growvar[n,t-1];
     }
   }
 }
@@ -38,6 +39,9 @@ model {
   sz_est1 ~ normal(init_sz, 2); // not sure if this will work
   sigma_proc ~ normal(0,3);
   sigma_obs ~ normal(0,3);
+  a ~ normal(0,5);
+  b ~ normal(0,5);
+  c ~ normal(0,5);
 
   for (i in 1:ntree){
     for (j in 1:time){
