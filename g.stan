@@ -28,7 +28,7 @@ transformed parameters {
     sz[n, init_yr[n]] <- sz_est1[n]; 
     // add one to init_yr to allow time loop index
     for (t in (init_yr[n]+1):time){
-      sz[n,t] <- a + b*sz[n,t-1] + c*precip[t] + ind_var[n] + t_var[t-1];
+      sz[n,t] <- a + b*sz[n,t-1] + c*precip[t] + ind_var[n] + t_var[t];
       //interaction: d*sz[n,t-1]*precip[t]
     }
   }

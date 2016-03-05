@@ -21,9 +21,17 @@ for(i in 1:nrow(fatemx)){
   init_yr[i] <- which(fatemx[i, ] > 0)[1]
   }
 
-# precip data
+# precip and fog data
+
 w <- c(201.422,	242.57,	314.706,	436.626,	427.99,	140.208,	288.544,	
-           305.562,	458.978,	586.232,	279.146,	74.168,	207.01)
+           305.562,	458.978,	586.232,	279.146,	74.168,	207.01) %>%
+  scale()
+
+f <- read.csv("fog_030416.csv") %>%
+  filter(metric == 5, yr < 2015) %>%
+  select(mean) %>%
+  scale() %>%
+  as.matrix()
 
 #subset of data to test
 fmx <- fatemx[1:200,]
