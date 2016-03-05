@@ -32,7 +32,7 @@ cloud <- read.csv("cloud_160305.csv") %>%
   filter(Metric == 5, Year < 2015) %>%
   select(Mean) %>%
   scale() %>% 
-  as.vector
+  as.vector()
 
 #subset of data to test
 fmx <- fatemx[1:150,]
