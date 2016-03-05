@@ -40,7 +40,7 @@ transformed parameters {
       sz[n,t] <- a + b*sz[n,t-1] + c*wx[t] + d*sz[n,t-1]*wx[t] + 
         ind_var[n] + t_var[t];
       
-      survprob[n,t] <- survprob[n,t-1] * logit(alpha + beta*sz[n,t-1] + 
+      survprob[n,t] <- survprob[n,t-1] * inv_logit(alpha + beta*sz[n,t-1] + 
         delta*wx[t] + gamma*sz[n,t-1]*wx[t]);
       
     }

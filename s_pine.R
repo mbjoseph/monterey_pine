@@ -34,15 +34,11 @@ cloud <- read.csv("cloud_160305.csv") %>%
   scale() %>% 
   as.vector()
 
-# data {
-#   int ntree;
-#   int<lower=0> time;
-#   matrix[ntree,time] fatemx;
-#   int survmx[ntree,time];
-#   vector[ntree] init_sz;
-#   int init_yr[ntree];
-#   vector[time] precip;
-# }
+#subset of data to test
+fatemx <- fatemx[1:150,]
+survmx <- survmx[1:150,]
+init_sz <- init_sz[1:150]
+init_yr <- init_yr[1:150]
 
 stan_d <- list(ntree = nrow(fatemx),
                time = ncol(fatemx),
@@ -53,3 +49,7 @@ stan_d <- list(ntree = nrow(fatemx),
                wx = cloud)
 
 out <- stan('s.stan', data = stan_d, chains = 2)
+
+pairs(out, pars = c('a', 'b', 'c', 'alpha', 'beta', 'delta', 'gamma',
+                    'sigma_ind', 'sigma_t', 'sigma_obs'))
+
