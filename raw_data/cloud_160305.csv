@@ -1,0 +1,91 @@
+Metric,Monthly Averages,Fog Status,Year,Mean,se
+1,Average VSB,Foggiest,2002,70.37976,4.552393
+1,Average VSB,Foggiest,2003,82.6312,2.728766
+1,Average VSB,Foggiest,2004,76.38821,3.352794
+1,Average VSB,Foggiest,2005,50.28603,9.8951
+1,Average VSB,Foggiest,2006,54.49259,3.428897
+1,Average VSB,Foggiest,2007,57.11607,5.656249
+1,Average VSB,Foggiest,2008,57.34565,4.966591
+1,Average VSB,Foggiest,2009,50.4145,1.473775
+1,Average VSB,Foggiest,2010,54.59873,2.702404
+1,Average VSB,Foggiest,2011,57.46981,2.057437
+1,Average VSB,Foggiest,2012,58.62502,3.087444
+1,Average VSB,Foggiest,2013,62.09403,3.09796
+1,Average VSB,Foggiest,2014,64.28209,2.131925
+1,Average VSB,Foggiest,2015,66.8902,7.1145
+1,Average VSB,Foggiest,2016,NA,NA
+2,Average VSB,Leasy Foggy,2002,69.82966,2.842188
+2,Average VSB,Leasy Foggy,2003,80.97524,1.542701
+2,Average VSB,Leasy Foggy,2004,76.68977,1.668256
+2,Average VSB,Leasy Foggy,2005,63.69925,4.571446
+2,Average VSB,Leasy Foggy,2006,66.40786,3.205595
+2,Average VSB,Leasy Foggy,2007,66.86064,3.362468
+2,Average VSB,Leasy Foggy,2008,68.25138,2.879558
+2,Average VSB,Leasy Foggy,2009,66.79906,4.143416
+2,Average VSB,Leasy Foggy,2010,65.04526,2.966886
+2,Average VSB,Leasy Foggy,2011,72.52472,3.803443
+2,Average VSB,Leasy Foggy,2012,66.84413,2.127439
+2,Average VSB,Leasy Foggy,2013,71.69305,3.106608
+2,Average VSB,Leasy Foggy,2014,70.13103,1.780925
+2,Average VSB,Leasy Foggy,2015,70.73335,3.502987
+2,Average VSB,Leasy Foggy,2016,78.2766,8.101541
+3,Daily Avg Min VSB,Foggiest,2002,5,2
+3,Daily Avg Min VSB,Foggiest,2003,43.627778,7.367699
+3,Daily Avg Min VSB,Foggiest,2004,31.418333,8.072071
+3,Daily Avg Min VSB,Foggiest,2005,20.949565,5.386804
+3,Daily Avg Min VSB,Foggiest,2006,19.639257,2.044346
+3,Daily Avg Min VSB,Foggiest,2007,20.793469,3.367914
+3,Daily Avg Min VSB,Foggiest,2008,16.121527,2.505118
+3,Daily Avg Min VSB,Foggiest,2009,14.216655,4.509294
+3,Daily Avg Min VSB,Foggiest,2010,15.53347,4.662973
+3,Daily Avg Min VSB,Foggiest,2011,33.036543,2.486032
+3,Daily Avg Min VSB,Foggiest,2012,31.350388,3.094611
+3,Daily Avg Min VSB,Foggiest,2013,37.962518,1.739204
+3,Daily Avg Min VSB,Foggiest,2014,30.434368,3.092511
+3,Daily Avg Min VSB,Foggiest,2015,27.137831,2.259457
+3,Daily Avg Min VSB,Foggiest,2016,NA,NA
+4,Daily Avg Min VSB,Leasy Foggy,2002,8.154762,2.683752
+4,Daily Avg Min VSB,Leasy Foggy,2003,38.016375,4.268344
+4,Daily Avg Min VSB,Leasy Foggy,2004,31.242241,3.463666
+4,Daily Avg Min VSB,Leasy Foggy,2005,23.286941,3.165813
+4,Daily Avg Min VSB,Leasy Foggy,2006,25.236687,3.82923
+4,Daily Avg Min VSB,Leasy Foggy,2007,25.914616,3.338215
+4,Daily Avg Min VSB,Leasy Foggy,2008,24.575395,3.481543
+4,Daily Avg Min VSB,Leasy Foggy,2009,26.972527,4.349318
+4,Daily Avg Min VSB,Leasy Foggy,2010,23.913821,4.389475
+4,Daily Avg Min VSB,Leasy Foggy,2011,34.763411,4.065806
+4,Daily Avg Min VSB,Leasy Foggy,2012,30.443975,1.820272
+4,Daily Avg Min VSB,Leasy Foggy,2013,39.485911,3.467933
+4,Daily Avg Min VSB,Leasy Foggy,2014,34.040376,1.605977
+4,Daily Avg Min VSB,Leasy Foggy,2015,33.283714,3.696061
+4,Daily Avg Min VSB,Leasy Foggy,2016,49.466622,20.031094
+5,Avg Daily Min VSB,Foggiest,2002,31.55344,7.109802
+5,Avg Daily Min VSB,Foggiest,2003,38.20793,3.808821
+5,Avg Daily Min VSB,Foggiest,2004,31.24644,7.659363
+5,Avg Daily Min VSB,Foggiest,2005,14.79871,8.076556
+5,Avg Daily Min VSB,Foggiest,2006,13.41452,2.822094
+5,Avg Daily Min VSB,Foggiest,2007,17.31371,3.287571
+5,Avg Daily Min VSB,Foggiest,2008,25.43384,5.265945
+5,Avg Daily Min VSB,Foggiest,2009,13.5116,1.741295
+5,Avg Daily Min VSB,Foggiest,2010,17.51714,1.692695
+5,Avg Daily Min VSB,Foggiest,2011,10.69328,1.683378
+5,Avg Daily Min VSB,Foggiest,2012,13.27661,4.7655
+5,Avg Daily Min VSB,Foggiest,2013,20.7322,5.958566
+5,Avg Daily Min VSB,Foggiest,2014,14.06962,2.163122
+5,Avg Daily Min VSB,Foggiest,2015,18.8129,5.80942
+5,Avg Daily Min VSB,Foggiest,2016,NA,NA
+6,Avg Daily Min VSB,Leasy Foggy,2002,36.31601,5.008628
+6,Avg Daily Min VSB,Leasy Foggy,2003,42.82156,2.059823
+6,Avg Daily Min VSB,Leasy Foggy,2004,42.20132,3.661063
+6,Avg Daily Min VSB,Leasy Foggy,2005,28.81406,4.374598
+6,Avg Daily Min VSB,Leasy Foggy,2006,26.42437,3.972406
+6,Avg Daily Min VSB,Leasy Foggy,2007,28.79494,3.857237
+6,Avg Daily Min VSB,Leasy Foggy,2008,35.20721,3.269213
+6,Avg Daily Min VSB,Leasy Foggy,2009,28.67823,4.687049
+6,Avg Daily Min VSB,Leasy Foggy,2010,26.52469,2.449407
+6,Avg Daily Min VSB,Leasy Foggy,2011,31.81683,5.59854
+6,Avg Daily Min VSB,Leasy Foggy,2012,28.16952,3.927751
+6,Avg Daily Min VSB,Leasy Foggy,2013,30.66461,4.224751
+6,Avg Daily Min VSB,Leasy Foggy,2014,26.04273,3.51133
+6,Avg Daily Min VSB,Leasy Foggy,2015,30.8964,4.882051
+6,Avg Daily Min VSB,Leasy Foggy,2016,43.60623,15.246403
