@@ -6,13 +6,16 @@ stan_d <- list(n = max(y_df$r),
                k = length(y_df$y),
                n_t = max(y_df$c),
                z1 = y_init$init,
+               z_hat1 = rep(0, length(y_init$init)),
                y = y_df$y,
                r = y_df$r,
                c = y_df$c)
 
 m_fit <- stan("./R/mp_nl.stan", data = stan_d, chains = 3)
 
+traceplot(m_fit, pars = c('z_hat[2,10]', 'z_hat[3,12]'))
 traceplot(m_fit, pars = c('alpha', 'beta', 'sigma_epsilon'))
+
 pairs(m_fit, pars = c('alpha', 'beta', 'sigma_epsilon'))
 
 post <- extract(m_fit)

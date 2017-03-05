@@ -14,17 +14,18 @@ epsilon <- rnorm(n_t * n, 0, sigma_epsilon) %>%
   matrix(n, n_t)
 
 z <- matrix(NA, n, n_t)
+z_hat <- matrix(NA, n, n_t)
 # set true initial size
-z[,1] <- rnorm(n, 8, 9)^2 %>% abs()
+z[,1] <- rnorm(n, 8, 10) %>% abs()
 
 # model parameters
 a <- 3
 b <- 0.25
-#c <- -0.11
 
 for (i in 1:n){
   for (t in 2:n_t) {
-    z[i,t] <- z[i,t-1] + a * z[i, t-1]^b + exp(epsilon[i,t])
+    z_hat[i,t] <- a * z[i, t-1]^b
+    z[i,t] <- z[i,t-1] + z_hat[i,t] + epsilon[i,t]
   }
 }
 

@@ -2,3 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
+.DS_Store
+/raw_data
+/rdata
+/stan_example
+log.md
+monterey_pine.Rproj

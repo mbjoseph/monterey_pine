@@ -1,21 +1,22 @@
 library(tidyverse)
+source("./R/fn_mxdf.R")
 
 #################
 ## simulate data for n trees using simple AR1 model
 #################
 
 n_t <- 14 # time steps
-n <- 30 # number of trees
+n <- 100 # number of trees
 # state process error term
-sigma_epsilon <- 0.2
+sigma_epsilon <- 0.01
 epsilon <- rnorm(n_t * n, 0, sigma_epsilon) %>% 
   matrix(n, n_t)
 
 z <- matrix(NA, n, n_t)
 # set true initial size
-z[,1] <- rnorm(n, 9, 9)^2 %>% sqrt() + epsilon[,1]
+z[,1] <- rnorm(n, 9, 9) %>% abs() + epsilon[,1]
 # growth rate
-beta <- .01
+beta <- 0.05
 
 # #  weather data
 # wx <- c(201.422,	242.57,	314.706,	436.626,	427.99,	140.208,	288.544,	
@@ -34,21 +35,37 @@ matplot(t(z), type = "l")
 y <- rnorm(n_t * n, mean = z, sd = 0.1) %>% 
   matrix(n, n_t)
 
+# size v time
+mx2df(z) %>%
+  ggplot(aes(c, y, color = as.factor(r))) +
+  geom_line(alpha = 0.8) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+# growth v time
+mx2df(z) %>%
+  ggplot(aes(c, grw, color = as.factor(r))) +
+  geom_line(alpha = 0.8) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
 
 # simulate missing obsrevations
-missing_obs <- sample(length(y), size = length(y)/3) %>% sort()
-y[missing_obs] <- NA
+#missing_obs <- sample(length(y), size = length(y)/3) %>% sort()
+#y[missing_obs] <- NA
 
 matplot(t(y), type = "l")
 
-y_df <- data.frame(y = y[which(!is.na(y))], which(!is.na(y), arr.ind = T)) %>%
-  select(y, r = row, c = col) %>%
-  tbl_df
+y_df <- mx2df(y)
 
 y_init <- y_df %>%
   group_by(r) %>%
   summarise(init = min(y)) %>%
   select(init)
+
+
+
+
 
 ###########
 ###########
