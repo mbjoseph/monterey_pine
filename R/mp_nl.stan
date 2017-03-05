@@ -10,7 +10,7 @@ data{
 }
 
 parameters{
-  real<lower = 0> alpha;
+  real alpha;
   real<lower =0> beta;
   matrix[n, n_t] epsilon;
   real<lower = 0> sigma_epsilon;
@@ -18,7 +18,7 @@ parameters{
 
 transformed parameters{
   matrix[n, n_t] z;
-  matrix[n, n_t] z_hat;
+  matrix[n, n_t] log_z_hat;
   z[,1] = z1;
   log_z_hat[,1] = z_hat1;
   
@@ -32,9 +32,9 @@ transformed parameters{
 }
 
 model{
-  alpha ~ normal(0, 2);
+  alpha ~ lognormal(0, 0.5);
   beta ~ normal(0, 1);
-  sigma_epsilon ~ normal(0, 0.3);
+  sigma_epsilon ~ normal(0, 0.5);
   to_vector(epsilon) ~ normal(0, sigma_epsilon);
 
   for(i in 1:k)

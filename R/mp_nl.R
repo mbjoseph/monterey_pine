@@ -1,5 +1,4 @@
 library(rstan)
-rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores() - 1)
 
 stan_d <- list(n = max(y_df$r),
@@ -11,9 +10,10 @@ stan_d <- list(n = max(y_df$r),
                r = y_df$r,
                c = y_df$c)
 
-m_fit <- stan("./R/mp_nl.stan", data = stan_d, chains = 3)
+m_fit <- stan("./R/mp_nl.stan", data = stan_d, chains = 3, 
+              control = list(adapt_delta = 0.99))
 
-traceplot(m_fit, pars = c('z_hat[2,10]', 'z_hat[3,12]'))
+traceplot(m_fit, pars = c('log_z_hat[2,10]', 'log_z_hat[3,12]'))
 traceplot(m_fit, pars = c('alpha', 'beta', 'sigma_epsilon'))
 
 pairs(m_fit, pars = c('alpha', 'beta', 'sigma_epsilon'))
