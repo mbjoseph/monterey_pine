@@ -11,7 +11,7 @@ stan_d <- list(n = max(y_df$r),
                c = y_df$c)
 
 m_fit <- stan("./R/mp_nl.stan", data = stan_d, chains = 3, 
-              control = list(adapt_delta = 0.99))
+              control = list(adapt_delta = 0.9))
 
 traceplot(m_fit, pars = c('log_z_hat[2,10]', 'log_z_hat[3,12]'))
 traceplot(m_fit, pars = c('alpha', 'beta', 'sigma_epsilon'))

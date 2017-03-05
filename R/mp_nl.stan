@@ -10,8 +10,8 @@ data{
 }
 
 parameters{
-  real alpha;
-  real<lower =0> beta;
+  real<lower = 0> alpha;
+  real<lower = 0> beta;
   matrix[n, n_t] epsilon;
   real<lower = 0> sigma_epsilon;
 }
@@ -32,8 +32,8 @@ transformed parameters{
 }
 
 model{
-  alpha ~ lognormal(0, 0.5);
-  beta ~ normal(0, 1);
+  alpha ~ normal(0, 0.5);
+  beta ~ normal(0, 0.5);
   sigma_epsilon ~ normal(0, 0.5);
   to_vector(epsilon) ~ normal(0, sigma_epsilon);
 
