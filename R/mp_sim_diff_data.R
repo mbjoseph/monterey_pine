@@ -6,26 +6,27 @@ source("./R/fn_mxdf.R")
 #################
 
 n_t <- 14 # time steps
-n <- 75 # number of trees
+n <- 100 # number of trees
 
 # state process error term
-sigma_epsilon <- 0.075
-epsilon <- rnorm(n_t * n, 0, sigma_epsilon) %>% 
-  matrix(n, n_t)
+sigma_epsilon_n <- 0.2
+#sigma_epsilon_t <- 0.1
+epsilon_n <- rnorm(n, 0, sigma_epsilon_n)
 
 z <- matrix(NA, n, n_t)
-log_z_hat <- matrix(NA, n, n_t)
+zdiff <- matrix(NA, n, n_t)
 # set true initial size
-z[,1] <- rnorm(n, 8, 8) %>% abs()
+z[,1] <- runif(n, 1, 50)
+zdiff[,1] <- 0
 
 # model parameters
-a <- 0.5
-b <- 0.3
+a <- 1.2
+b <- 0.2
 
 for (i in 1:n){
   for (t in 2:n_t) {
-    log_z_hat[i,t] <- a + b * log(z[i, t-1])
-    z[i,t] <- z[i,t-1] + exp(log_z_hat[i,t]) + epsilon[i,t]
+    zdiff[i,t] <-  a * z[i, t-1]^b * exp(epsilon_n[i])
+    z[i,t] <- z[i,t-1] + zdiff[i,t]
   }
 }
 
@@ -43,7 +44,7 @@ y_df <- mx2df(y)
 y_df %>%
   ggplot(aes(prev_sz, grw, color = as.factor(r))) +
   geom_line(alpha = 0.8) +
-  ggtitle(a,b) +
+  ggtitle(paste("alpha = ", a, "; beta = ", b)) +
   theme_minimal() +
   theme(legend.position = "none")
 
@@ -51,6 +52,7 @@ y_df %>%
 y_df %>%
   ggplot(aes(c, y, color = as.factor(r))) +
   geom_line(alpha = 0.8) +
+  ggtitle(paste("alpha = ", a, "; beta = ", b)) +
   theme_minimal() +
   theme(legend.position = "none")
 
@@ -67,5 +69,28 @@ y_init <- y_df %>%
   summarise(init = min(y)) %>%
   select(init)
 
+##################
+##################
 
+library(rstan)
+options(mc.cores = parallel::detectCores() - 1)
 
+stan_d <- list(n = max(y_df$r),
+               k = length(y_df$y),
+               n_t = max(y_df$c),
+               delta_y = y_df$grw,
+               dy1 = rep(0, length(y_init$init)),
+               z = y,
+               r = y_df$r,
+               c = y_df$c)
+
+m_fit <- stan("./R/mp_diff.stan", data = stan_d, chains = 3)
+m_fit
+
+watch <- c('alpha', 'beta', 'sigma_epsilon_n', 'dy[2,10]')
+traceplot(m_fit, pars = watch)
+pairs(m_fit, pars = watch)
+
+post <- extract(m_fit)
+plot(density(post$beta))
+plot(density(post$alpha))

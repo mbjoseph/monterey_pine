@@ -9,53 +9,31 @@ n_t <- 14 # time steps
 n <- 100 # number of trees
 # state process error term
 sigma_epsilon <- 0.01
-epsilon <- rnorm(n_t * n, 0, sigma_epsilon) %>% 
-  matrix(n, n_t)
+epsilon_n <- rnorm(n, 0, sigma_epsilon)
 
 z <- matrix(NA, n, n_t)
 # set true initial size
-z[,1] <- rnorm(n, 9, 9) %>% abs() + epsilon[,1]
+z[,1] <- rnorm(n, 9, 9) %>% abs()
 # growth rate
 beta <- 0.05
 
-# #  weather data
-# wx <- c(201.422,	242.57,	314.706,	436.626,	427.99,	140.208,	288.544,	
-#         305.562,	458.978,	586.232,	279.146,	74.168,	207.01, 173.228) 
-# gamma <- 0.005
-
+# deterministic growth function
 for (i in 1:n){
   for (t in 2:n_t) {
-    z[i,t] <- z[i,t-1] + beta * z[i, t-1] + epsilon[i,t]
+    z[i,t] <- z[i,t-1] + beta * z[i, t-1] + epsilon_n[i]
   }
 }
 
-matplot(t(z), type = "l")
 
 # observed data, with some fixed observation error
 y <- rnorm(n_t * n, mean = z, sd = 0.1) %>% 
   matrix(n, n_t)
 
-# size v time
-mx2df(z) %>%
-  ggplot(aes(c, y, color = as.factor(r))) +
-  geom_line(alpha = 0.8) +
-  theme_minimal() +
-  theme(legend.position = "none")
-
-# growth v time
-mx2df(z) %>%
-  ggplot(aes(c, grw, color = as.factor(r))) +
-  geom_line(alpha = 0.8) +
-  theme_minimal() +
-  theme(legend.position = "none")
-
-
 # simulate missing obsrevations
 #missing_obs <- sample(length(y), size = length(y)/3) %>% sort()
 #y[missing_obs] <- NA
 
-matplot(t(y), type = "l")
-
+# reformat data from matrix to data frame, long form
 y_df <- mx2df(y)
 
 y_init <- y_df %>%
@@ -63,45 +41,21 @@ y_init <- y_df %>%
   summarise(init = min(y)) %>%
   select(init)
 
+#################
+### plot data from y_df
+################
 
+# size v time
+y_df %>%
+  ggplot(aes(c, y, color = as.factor(r))) +
+  geom_line(alpha = 0.8) +
+  theme_minimal() +
+  theme(legend.position = "none")
 
-
-
-###########
-###########
-
-library(rstan)
-options(mc.cores = parallel::detectCores() - 1)
-
-stan_d <- list(n = n,
-               k = length(y_df$y),
-               n_t = n_t,
-               z1 = y_init$init,
-               y = y_df$y,
-               r = y_df$r,
-               c = y_df$c)
-
-m_fit <- stan("./R/mp_ar1.stan", data = stan_d, chains = 3)
-
-traceplot(m_fit, pars = c('beta', 'sigma_epsilon'))
-pairs(m_fit, pars = c('beta', 'sigma_epsilon'))
-
-post <- extract(m_fit)
-
-plot(density(post$beta))
-plot(density(post$sigma_epsilon))
-
-# plot modeled growth trajectories for each tree
-
-post %>%
-  `[[`("z") %>%
-  apply(c(2,3), FUN = function(x) c(quantile(x, c(0.025, 0.5, 0.975)))) %>%
-  reshape2::melt(varnames = c("quantile", "id", "t"), value.name = "sz") %>%
-  spread(key = quantile, value = sz) %>%
-  tbl_df %>%
-  ggplot(aes(x = t, y = `50%`, group = id)) +
+# growth v previous size
+y_df %>%
+  ggplot(aes(prev_sz, grw, color = as.factor(r))) +
   geom_line(alpha = 0.5) +
-  geom_ribbon(aes(ymin = `2.5%`, ymax = `97.5%`), alpha = 0.1) +
-  theme_minimal()
-
+  theme_minimal() +
+  theme(legend.position = "none")
 

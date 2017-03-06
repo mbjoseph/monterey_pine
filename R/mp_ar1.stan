@@ -10,7 +10,7 @@ data {
 
 parameters {
   real<lower = 0> beta;
-  real epsilon[n, n_t];
+  vector[n] epsilon_n;
   real<lower = 0> sigma_epsilon;
 }
 
@@ -21,7 +21,7 @@ transformed parameters {
 
   for(tree in 1:n){
     for (t in 2:n_t) {
-      z[tree, t] = z[tree, t-1] + beta * z[tree, t-1] + epsilon[tree, t];
+      z[tree, t] = z[tree, t-1] + beta * z[tree, t-1] + epsilon_n[tree];
     } 
   }
 }
@@ -29,12 +29,8 @@ transformed parameters {
 model {
   beta ~ normal(0, 0.5);
   sigma_epsilon ~ normal(0, 0.5);
-  
-  for(q in 1:n){
-    for (p in 2:n_t) {
-      epsilon[q,p] ~ normal(0.0, sigma_epsilon);
-    }
-  }
+  epsilon_n ~ normal(0.0, sigma_epsilon);
+
   
   for(i in 1:k)
     y[i] ~ normal(z[r[i], c[i]], 0.1);

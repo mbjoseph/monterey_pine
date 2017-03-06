@@ -38,7 +38,7 @@ fate_df <- bind_rows(fate_l, .id = "id")
 
 fate_df %>%
   filter(timelag < 3) %>%
-  ggplot(aes(log(prev_sz), grw, color = as.factor(timelag))) +
+  ggplot(aes(log(prev_sz), log(grw), color = as.factor(timelag))) +
   geom_point(alpha = 0.5, size = 2) + 
   facet_grid(id ~ .) +
   theme_minimal()
@@ -46,24 +46,16 @@ fate_df %>%
 
 fate_df %>%
   filter(timelag == 2) %>%
-  ggplot(aes(as.factor(wx), grw)) +
+  ggplot(aes(as.factor(wx), log(grw))) +
   geom_jitter(width = 0.1, alpha = 0.2, size = 2) + 
   facet_grid(id ~ .) +
   theme_minimal()
 
-lm(grw ~ prev_sz + as.factor(wx), data = fate_df) %>% rethinking::precis()
+fate_df %>%
+  filter(id == 'ef') %>%
+  ggplot(aes(c, log(y), color = as.factor(r))) +
+  geom_line(alpha = 0.8) +
+  theme_minimal() +
+  theme(legend.position = "none")
 
-## long form database reformat
-# d <- fate_df %>%
-#   mutate(id = as.numeric(rownames(fate_df))) %>%
-#   gather(1:14, key = "year", value = "dbh") %>%
-#   mutate(year = as.numeric(year), id = as.factor(id), dbh = round(dbh, 2)) %>%
-#   arrange(id) %>%
-#   na.omit()
-# 
-# df <- filter(d, !d[,1] %in% which(as.vector(table(d$id) == 1))) %>%
-#   group_by(id) %>% 
-#   mutate(prev_dbh = lag(dbh), x = lag(year), delta = (year - x)-1) %>%
-#   select(id, t = year, delta, dbh, prev_dbh) %>%
-#   na.omit()
-# 
+lm(grw ~ prev_sz + as.factor(wx), data = fate_df) %>% rethinking::precis()

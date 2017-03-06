@@ -12,7 +12,7 @@ data{
 parameters{
   real<lower = 0> alpha;
   real<lower = 0> beta;
-  matrix[n, n_t] epsilon;
+  vector[n] epsilon;
   real<lower = 0> sigma_epsilon;
 }
 
@@ -24,8 +24,8 @@ transformed parameters{
   
   for(tree in 1:n){
     for (t in 2:n_t) {
-      log_z_hat[tree, t] =  alpha + beta * log(z[tree, t-1]);
-      z[tree, t] = z[tree, t-1] + exp(log_z_hat[tree, t]) + epsilon[tree, t];
+      log_z_hat[tree, t] =  alpha + beta * log(z[tree, t-1] +  epsilon[tree]);
+      z[tree, t] = z[tree, t-1] + exp(log_z_hat[tree, t]);
     } 
   }
   
@@ -35,8 +35,8 @@ model{
   alpha ~ normal(0, 0.5);
   beta ~ normal(0, 0.5);
   sigma_epsilon ~ normal(0, 0.5);
-  to_vector(epsilon) ~ normal(0, sigma_epsilon);
+  epsilon ~ normal(0, sigma_epsilon);
 
   for(i in 1:k)
-    y[i] ~ normal(z[r[i], c[i]], 0.1);
+    y[i] ~ normal(z[r[i], c[i]], 0.01);
 }

@@ -1,10 +1,9 @@
 library(rstan)
-rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores() - 1)
 
-stan_d <- list(n = nrow(fate),
+stan_d <- list(n = n,
                k = length(y_df$y),
-               n_t = ncol(fate),
+               n_t = n_t,
                z1 = y_init$init,
                y = y_df$y,
                r = y_df$r,
@@ -12,8 +11,9 @@ stan_d <- list(n = nrow(fate),
                
 m_fit <- stan("./R/mp_ar1.stan", data = stan_d, chains = 3)
 
-traceplot(m_fit, pars = c('beta', 'sigma_epsilon'))
-pairs(m_fit, pars = c('beta', 'sigma_epsilon'))
+watch <- c(c('beta', 'sigma_epsilon', 'z[47,5]', 'z[47,6]'))
+traceplot(m_fit, pars = watch)
+pairs(m_fit, pars = watch)
 
 post <- extract(m_fit)
 
